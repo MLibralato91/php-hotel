@@ -39,7 +39,18 @@ $hotels = [
   ],
 
 ];
+if(!empty($_GET['parking'])){
+  $park = $_GET['parking'];
+  $filteredHotels=[];
 
+  foreach($hotels as $hotel){
+    if($hotel['parking'] == $park){
+      $filteredHotels[] = $hotel;
+    }
+  };
+}else{
+  $filteredHotels = $hotels;
+}
 ?>
 
 
@@ -58,8 +69,33 @@ $hotels = [
 
 <body>
   <div class="container">
+    <div class="row pt-5">
+      <div class="col-4">
+        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
+          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="parking">
+            <option selected>Ti serve un posto auto?</option>
+            <option value="true">Si</option>
+            <option value="false">No</option>
+          </select>
+          <button class="btn btn-primary">Cerca</button>
+          <!-- <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected>Selezione le stelle che desideri</option>
+            <option value="1">1 Stella</option>
+            <option value="2">2 Stelle</option>
+            <option value="3">3 Stelle</option>
+            <option value="4">4 Stelle</option>
+            <option value="5">5 Stelle</option>
+          </select> -->
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container">
     <div class="row pt-5 d-flex">
-      <?php foreach ($hotels as $hotel) { ?>
+      <?php foreach ($filteredHotels as $hotel) { ?>
         <div class="col-3 pb-4">
           <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="card-header">
@@ -78,7 +114,7 @@ $hotels = [
               <?php } ?>
 
               <p class="fw-bolder">Valutazione: <?php echo $hotel['vote'] ?> <i class="fa-solid fa-star"></i></p>
-              
+
             </div>
           </div>
         </div>
