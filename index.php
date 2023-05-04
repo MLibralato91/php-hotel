@@ -45,7 +45,7 @@ if(!empty($_GET['parking'])){
   $filteredHotels=[];
 
   foreach($hotels as $hotel){
-    if($hotel['parking'] == $park && $hotel['vote'] ==  $star){
+    if($hotel['parking'] == $park && $hotel['vote'] >=  $star){
       $filteredHotels[] = $hotel;
     }
   }
