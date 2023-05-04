@@ -63,7 +63,11 @@ $hotels = [
           <div class="card">
            <h3> <?php echo $hotel['name'] ?></h3>
             <h4><?php echo $hotel['description'] ?></h4>
-            <p>Parcheggio:<?php echo $hotel['parking'] ?></p>
+              <?php if($hotel['parking']) {?>
+                <p>Parcheggio disponibile</p>
+                <?php } else{ ?>
+                  <p>Parcheggio non disponibile</p>
+                  <?php } ?>
             <p class="fw-bolder">Valutazione media:</p><p><?php echo $hotel['vote'] ?></p>
           </div>
         </div>
