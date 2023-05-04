@@ -40,7 +40,7 @@ $hotels = [
 
 ];
 if(!empty($_GET['parking'])){
-  $star =$_GET['stars'];
+  $star = $_GET['stars'];
   $park = $_GET['parking'];
   $filteredHotels=[];
 
@@ -97,7 +97,8 @@ if(!empty($_GET['parking'])){
 
   <div class="container">
     <div class="row pt-5 d-flex">
-      <?php foreach ($filteredHotels as $hotel) { ?>
+      
+    <?php foreach ($filteredHotels as $hotel) { ?>
         <div class="col-3 pb-4">
           <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="card-header">
@@ -109,7 +110,7 @@ if(!empty($_GET['parking'])){
               <h4 class="card-text"><?php echo $hotel['description'] ?></h4>
 
 
-              <?php if ($hotel['parking']) { ?>
+              <?php if ($hotel['parking'] == 'true') { ?>
                 <p class="card-text">Parcheggio disponibile</p>
               <?php } else { ?>
                 <p class="card-text">Parcheggio non disponibile</p>
