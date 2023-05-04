@@ -40,15 +40,16 @@ $hotels = [
 
 ];
 if(!empty($_GET['parking'])){
+  $star =$_GET['stars'];
   $park = $_GET['parking'];
   $filteredHotels=[];
 
   foreach($hotels as $hotel){
-    if($hotel['parking'] === $park){
+    if($hotel['parking'] == $park && $hotel['vote'] ==  $star){
       $filteredHotels[] = $hotel;
     }
   }
-}else{
+}else{ 
   $filteredHotels = $hotels;
 }
 ?>
@@ -77,15 +78,16 @@ if(!empty($_GET['parking'])){
             <option value="true">Si</option>
             <option value="false">No</option>
           </select>
-          <button type="submit" class="btn btn-primary">Cerca</button>
-          <!-- <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+          
+          <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="stars">
             <option selected>Selezione le stelle che desideri</option>
             <option value="1">1 Stella</option>
             <option value="2">2 Stelle</option>
             <option value="3">3 Stelle</option>
             <option value="4">4 Stelle</option>
             <option value="5">5 Stelle</option>
-          </select> -->
+          </select>
+          <button type="submit" class="btn btn-primary">Cerca</button>
         </form>
       </div>
     </div>
@@ -107,7 +109,7 @@ if(!empty($_GET['parking'])){
               <h4 class="card-text"><?php echo $hotel['description'] ?></h4>
 
 
-              <?php if ($hotel['parking'] == 'true') { ?>
+              <?php if ($hotel['parking']) { ?>
                 <p class="card-text">Parcheggio disponibile</p>
               <?php } else { ?>
                 <p class="card-text">Parcheggio non disponibile</p>
