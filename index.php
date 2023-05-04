@@ -5,35 +5,35 @@ $hotels = [
   [
     'name' => 'Hotel Belvedere',
     'description' => 'Hotel Belvedere Descrizione',
-    'parking' => true,
+    'parking' => 'true',
     'vote' => 4,
     'distance_to_center' => 10.4
   ],
   [
     'name' => 'Hotel Futuro',
     'description' => 'Hotel Futuro Descrizione',
-    'parking' => true,
+    'parking' => 'true',
     'vote' => 2,
     'distance_to_center' => 2
   ],
   [
     'name' => 'Hotel Rivamare',
     'description' => 'Hotel Rivamare Descrizione',
-    'parking' => false,
+    'parking' => 'false',
     'vote' => 1,
     'distance_to_center' => 1
   ],
   [
     'name' => 'Hotel Bellavista',
     'description' => 'Hotel Bellavista Descrizione',
-    'parking' => false,
+    'parking' => 'false',
     'vote' => 5,
     'distance_to_center' => 5.5
   ],
   [
     'name' => 'Hotel Milano',
     'description' => 'Hotel Milano Descrizione',
-    'parking' => true,
+    'parking' => 'true',
     'vote' => 2,
     'distance_to_center' => 50
   ],
@@ -44,10 +44,10 @@ if(!empty($_GET['parking'])){
   $filteredHotels=[];
 
   foreach($hotels as $hotel){
-    if($hotel['parking'] == $park){
+    if($hotel['parking'] === $park){
       $filteredHotels[] = $hotel;
     }
-  };
+  }
 }else{
   $filteredHotels = $hotels;
 }
@@ -73,11 +73,11 @@ if(!empty($_GET['parking'])){
       <div class="col-4">
         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
           <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="parking">
-            <option selected>Ti serve un posto auto?</option>
+            <option value="">Ti serve un posto auto?</option>
             <option value="true">Si</option>
             <option value="false">No</option>
           </select>
-          <button class="btn btn-primary">Cerca</button>
+          <button type="submit" class="btn btn-primary">Cerca</button>
           <!-- <select class="form-select form-select-sm" aria-label=".form-select-sm example">
             <option selected>Selezione le stelle che desideri</option>
             <option value="1">1 Stella</option>
@@ -107,7 +107,7 @@ if(!empty($_GET['parking'])){
               <h4 class="card-text"><?php echo $hotel['description'] ?></h4>
 
 
-              <?php if ($hotel['parking']) { ?>
+              <?php if ($hotel['parking'] == 'true') { ?>
                 <p class="card-text">Parcheggio disponibile</p>
               <?php } else { ?>
                 <p class="card-text">Parcheggio non disponibile</p>
