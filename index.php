@@ -5,53 +5,64 @@ $hotels = [
   [
     'name' => 'Hotel Belvedere',
     'description' => 'Hotel Belvedere Descrizione',
-    'parking' => 'true',
+    'parking' => true,
     'vote' => 4,
     'distance_to_center' => 10.4
   ],
   [
     'name' => 'Hotel Futuro',
     'description' => 'Hotel Futuro Descrizione',
-    'parking' => 'true',
+    'parking' => true,
     'vote' => 2,
     'distance_to_center' => 2
   ],
   [
     'name' => 'Hotel Rivamare',
     'description' => 'Hotel Rivamare Descrizione',
-    'parking' => 'false',
+    'parking' => false,
     'vote' => 1,
     'distance_to_center' => 1
   ],
   [
     'name' => 'Hotel Bellavista',
     'description' => 'Hotel Bellavista Descrizione',
-    'parking' => 'false',
+    'parking' => false,
     'vote' => 5,
     'distance_to_center' => 5.5
   ],
   [
     'name' => 'Hotel Milano',
     'description' => 'Hotel Milano Descrizione',
-    'parking' => 'true',
+    'parking' => true,
     'vote' => 2,
     'distance_to_center' => 50
   ],
 
 ];
-if(!empty($_GET['parking'])){
-  $star = $_GET['stars'];
-  $park = $_GET['parking'];
-  $filteredHotels=[];
+$filteredHotels = $hotels;
+if (!empty($_GET['parking'])) {
+  $tempHotels = [];
+  $park = ($_GET['parking'] == 'si') ? true : false;
 
-  foreach($hotels as $hotel){
-    if($hotel['parking'] == $park && $hotel['vote'] >=  $star){
-      $filteredHotels[] = $hotel;
+  foreach ($filteredHotels as $hotel) {
+    if ($hotel['parking'] === $park) {
+      $tempHotels[] = $hotel;
+    }
+    $filteredHotels = $tempHotels;
+  }
+}
+if (!empty($_GET['stars'])) {
+  $tempHotels = [];
+  $star = $_GET['stars'];
+  foreach ($filteredHotels as $hotel) {
+    if ($hotel['vote'] >=  $star) {
+      $tempHotels[] = $hotel;
     }
   }
-}else{ 
-  $filteredHotels = $hotels;
+  $filteredHotels = $tempHotels;
 }
+
+
 ?>
 
 
@@ -69,62 +80,67 @@ if(!empty($_GET['parking'])){
 </head>
 
 <body>
-  <div class="container">
-    <div class="row pt-5">
-      <div class="col-4">
-        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
-          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="parking">
-            <option value="">Ti serve un posto auto?</option>
-            <option value="true">Si</option>
-            <option value="false">No</option>
-          </select>
-          
-          <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="stars">
-            <option selected>Selezione le stelle che desideri</option>
-            <option value="1">1 Stella</option>
-            <option value="2">2 Stelle</option>
-            <option value="3">3 Stelle</option>
-            <option value="4">4 Stelle</option>
-            <option value="5">5 Stelle</option>
-          </select>
-          <button type="submit" class="btn btn-primary">Cerca</button>
-        </form>
+  <header>
+    <div class="container">
+      <h1>Hotels</h1>
+      <div class="row pt-5">
+        <div class="col-4">
+          <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="GET">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="parking">
+              <option value="">Ti serve un posto auto?</option>
+              <option value="si">Si</option>
+              <option value="no">No</option>
+            </select>
+
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="stars">
+              <option value="">Selezione le stelle che desideri</option>
+              <option value="1">1 Stella</option>
+              <option value="2">2 Stelle</option>
+              <option value="3">3 Stelle</option>
+              <option value="4">4 Stelle</option>
+              <option value="5">5 Stelle</option>
+            </select>
+            <button type="submit" class="btn btn-primary mt-3">Cerca</button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="row pt-5 d-flex">
+
+        <?php foreach ($filteredHotels as $hotel) { ?>
+          <div class="col-3 pb-4">
+            <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+              <div class="card-header">
+                <h3 class="card-title"> <?php echo $hotel['name'] ?></h3>
+
+              </div>
+              <div class="card-body">
+
+                <h4 class="card-text"><?php echo $hotel['description'] ?></h4>
 
 
+                <?php if ($hotel['parking']) { ?>
+                  <p class="card-text">Parcheggio disponibile</p>
+                <?php } else { ?>
+                  <p class="card-text">Parcheggio non disponibile</p>
+                <?php } ?>
 
-  <div class="container">
-    <div class="row pt-5 d-flex">
-      
-    <?php foreach ($filteredHotels as $hotel) { ?>
-        <div class="col-3 pb-4">
-          <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div class="card-header">
-              <h3 class="card-title"> <?php echo $hotel['name'] ?></h3>
+                <p class="fw-bolder">Valutazione: <?php echo $hotel['vote'] ?> <i class="fa-solid fa-star"></i></p>
 
-            </div>
-            <div class="card-body">
+                <p class="fw-bolder">Distanza dal centro: <?php echo $hotel['distance_to_center'] ?> Km</p>
 
-              <h4 class="card-text"><?php echo $hotel['description'] ?></h4>
-
-
-              <?php if ($hotel['parking'] == 'true') { ?>
-                <p class="card-text">Parcheggio disponibile</p>
-              <?php } else { ?>
-                <p class="card-text">Parcheggio non disponibile</p>
-              <?php } ?>
-
-              <p class="fw-bolder">Valutazione: <?php echo $hotel['vote'] ?> <i class="fa-solid fa-star"></i></p>
-
+              </div>
             </div>
           </div>
-        </div>
-      <?php } ?>
-    </div>
+        <?php } ?>
+      </div>
 
-  </div>
+    </div>
+  </main>
 </body>
 
 </html>
